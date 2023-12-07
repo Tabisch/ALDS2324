@@ -1,5 +1,3 @@
-package de.profmeyer.java.sorting;
-
 public class Sortierverfahren
 {
 	 public static void swap(Comparable[] data, int i, int j)
@@ -26,16 +24,16 @@ public class Sortierverfahren
 	 {
 	    for (int i=1; i < data.length; i++)
 	    {
-	       // Entnehmen des einzufügenden Elements
+	       // Entnehmen des einzufï¿½genden Elements
 	       Comparable temp = data[i];
-	       // Bestimmen der Position k, hinter der eingefügt wird
+	       // Bestimmen der Position k, hinter der eingefï¿½gt wird
 	       int k = i-1;
 	       while ((k >= 0) && (temp.compareTo(data[k]) < 0))
 	       {
 	    	   data[k+1] = data[k];
 	    	   k--;
 	       }
-	       // Einfügen des neuen Elements an hinter Position k
+	       // Einfï¿½gen des neuen Elements an hinter Position k
 	       data[k+1] = temp;
 	    }
 	 }
@@ -47,7 +45,7 @@ public class Sortierverfahren
 	 {
 	    for (int i=1; i < data.length; i++)
 	    {
-	       // Bestimmen der Einfügeposition k im Bereich 0..i-1
+	       // Bestimmen der Einfï¿½geposition k im Bereich 0..i-1
 	       int k = 0, l = i-1;
 	       while (k <= l)
 	       {
@@ -57,12 +55,12 @@ public class Sortierverfahren
 	    	   else
 	    		   k = m + 1;
 	       }			
-	       // Entnehmen des einzufügenden Elements
+	       // Entnehmen des einzufï¿½genden Elements
 	       Comparable temp = data[i];
 	       // Verschieben der Elemente zwischen k und i
 	       for (int j = i; j > k; j--)
 	          data[j] = data[j-1];
-	       // Einfügen des neuen Elements an Position k
+	       // Einfï¿½gen des neuen Elements an Position k
 	       data[k] = temp;
 	    }
 	 }
@@ -243,7 +241,7 @@ public class Sortierverfahren
 			 if ((j+1 < right) && (data[j].compareTo(data[j+1]) < 0))
 				 j++;
 			 if (x.compareTo(data[j]) >= 0)
-				 break; // Halte an, Heap-Bedingung erfüllt!
+				 break; // Halte an, Heap-Bedingung erfï¿½llt!
 			 else
 			 {
 				 data[k] = data[j];
