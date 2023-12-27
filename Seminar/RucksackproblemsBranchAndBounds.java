@@ -2,12 +2,12 @@ package Seminar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-// Algorithmus von Nemhauser und Ullmann“
+class CargoItem implements Comparable<CargoItem> {
 
-class CargoItem {
     int weight, profit;
     String name;
 
@@ -32,15 +32,28 @@ class CargoItem {
     public String toString() {
         return this.name + " - weight: " + this.weight + " - profit: " + this.profit;
     }
+
+    @Override
+    public int compareTo(CargoItem o) {
+        if (o.weight == this.weight) {
+            return 0;
+        }
+
+        if (o.weight < this.weight) {
+            return 1;
+        }
+
+        return -1;
+    }
 }
 
-public class Rucksackproblems {
+public class RucksackproblemsBranchAndBounds {
 
     static int bestValue;
     static List<CargoItem> bestSelection;
 
     public static void main(String[] args) {
-
+        
         bestSelection = new ArrayList<CargoItem>();
         List<CargoItem> items = new ArrayList<CargoItem>();
 
@@ -60,7 +73,11 @@ public class Rucksackproblems {
             availableValue += item.getProfit();
         }
 
+        Collections.sort(items);
+
         knapsack(new ArrayList<CargoItem>(), 0, items, availableValue, 0, weightLimit);
+
+        Collections.sort(bestSelection);
 
         int summeWeight = 0;
         int summeProfit = 0;
@@ -70,7 +87,7 @@ public class Rucksackproblems {
         while (iterator.hasNext()) {
             CargoItem temp = iterator.next();
 
-            System.out.println(temp.getName());
+            System.out.println(temp.toString());
             summeProfit += temp.getProfit();
             summeWeight += temp.getWeight();
         }
@@ -83,24 +100,24 @@ public class Rucksackproblems {
         
         if (availableItems.isEmpty()) // Rekusionsanker
         {
-
+            // Testen, ob neue beste Kombination
             if (selectedValue > bestValue) {
-
                 bestValue = selectedValue;
                 bestSelection.clear();
                 bestSelection.addAll(selectedItems);
-                
             }
 
         } else {
-
+            // Entfernen, für nächsten Rekursionsschritt
             CargoItem item = availableItems.remove(0);
 
             int weight = item.getWeight();
             int value = item.getProfit();
             
+            // Bound: keine beste Kombination mehr möglich
             if (selectedValue + availableValue > bestValue) {
 
+                // Test Gegenstand noch einfügbar ?
                 if (currentWeight + weight <= weightLimit) {
 
                     selectedItems.add(item);
@@ -109,10 +126,11 @@ public class Rucksackproblems {
 
                 }
 
-                knapsack(selectedItems, selectedValue, availableItems, availableValue, currentWeight, weightLimit);
+                knapsack(selectedItems, selectedValue, availableItems, availableValue - value, currentWeight, weightLimit);
 
             }
 
+            // Backtracking
             availableItems.add(item);
         }
     }

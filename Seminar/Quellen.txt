@@ -1,0 +1,25 @@
+https://www.geeksforgeeks.org/introduction-to-knapsack-problem-its-types-and-how-to-solve-them/
+
+https://www.interviewbit.com/blog/0-1-knapsack-problem/
+
+https://link.springer.com/content/pdf/10.1007/978-3-540-76394-9_41.pdf?pdf=inline%20link
+
+https://www.baeldung.com/cs/knapsack-problem-np-completeness
+
+https://www.youtube.com/watch?v=ujhi2h70qIw
+
+https://www.youtube.com/watch?v=Zz7hmnpOXEI
+
+https://www.youtube.com/watch?v=CiX_eG0dXBo
+
+https://www.mpi-inf.mpg.de/fileadmin/inf/d1/teaching/summer16/random/smoothedanalysis.pdf
+
+https://www.geeksforgeeks.org/branch-and-bound-algorithm/
+
+https://www.youtube.com/watch?v=cJ21moQpofY
+
+https://github.com/williamfiset/Algorithms/blob/master/src/main/java/com/williamfiset/algorithms/dp/Knapsack_01.java
+
+taschenbuch der algorithmen S. 391-
+
+https://www.yumpu.com/de/document/read/5912955/der-nemhauser-ullmann-algorithmus-und-verallgemeine-rungen
