@@ -20,6 +20,6 @@ https://www.youtube.com/watch?v=cJ21moQpofY
 
 https://github.com/williamfiset/Algorithms/blob/master/src/main/java/com/williamfiset/algorithms/dp/Knapsack_01.java
 
-taschenbuch der algorithmen S. 391-
+taschenbuch der algorithmen S. 391-397
 
 https://www.yumpu.com/de/document/read/5912955/der-nemhauser-ullmann-algorithmus-und-verallgemeine-rungen

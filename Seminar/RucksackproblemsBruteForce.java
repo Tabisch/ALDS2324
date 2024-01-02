@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.sound.midi.SysexMessage;
-
 // Algorithmus von Nemhauser und Ullmann“
 
 class CargoItem {
@@ -86,7 +84,7 @@ public class RucksackproblemsBruteForce {
 
         if (availableItems.isEmpty()) // Rekusionsanker
         {
-            System.out.println(currentWeight + "," + selectedValue);
+            // System.out.println(currentWeight + "," + selectedValue);
             if (currentWeight <= weightLimit && selectedValue > bestValue) {
                 bestValue = selectedValue;
                 bestSelection.clear();

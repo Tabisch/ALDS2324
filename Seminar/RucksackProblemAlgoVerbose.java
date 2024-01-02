@@ -50,11 +50,11 @@ class CargoItem implements Comparable<CargoItem> {
 
 public class RucksackProblemAlgoVerbose {
 
-    static boolean profitHigher = false;
-    static boolean weightNotFit = false;
+    static boolean profitHigher = true;
+    static boolean weightNotFit = true;
     static boolean itemsAfterSort = false;
     static boolean remainingWeightList = false;
-    static boolean showNewHeihPoint = false;
+    static boolean showNewHeighPoint = true;
 
     public static void main(String[] args) {
 
@@ -105,6 +105,8 @@ public class RucksackProblemAlgoVerbose {
         // Gegenstände iterieren
         for (int i = 1; i <= items.length; i++) {
             // Gewicht iterieren
+            System.out.println("Bearbeite Gegenstand " + i + " " + items[i-1].getName());
+
             for (int weightCounter = 1; weightCounter <= capacity; weightCounter++) {
 
                 // Vorherigen Wert übernehmen
@@ -117,19 +119,22 @@ public class RucksackProblemAlgoVerbose {
                     {
                         DP[i][weightCounter] = DP[i - 1][weightCounter - items[i - 1].getWeight()] + items[i - 1].getProfit();
 
-                        if(showNewHeihPoint && DP[i][weightCounter] != DP[i - 1][weightCounter] && DP[i][weightCounter] != DP[i][weightCounter - 1]) {
+                        if(showNewHeighPoint && DP[i][weightCounter] != DP[i - 1][weightCounter] && DP[i][weightCounter] != DP[i][weightCounter - 1]) {
                             System.out.println(items[i - 1].getName() + ": Änderung " + weightCounter);
+                            try {System.in.read();} catch (Exception e) {}
                         }
                     }
                     else {
                         if (profitHigher) {
                             System.out.println(items[i - 1].getName() + " / " + items[i - 1].getWeight()  + "kg: Profit nicht höher " + weightCounter + "kg");
+                            try {System.in.read();} catch (Exception e) {}
                         }
                     }
                 }
                 else {
                     if (weightNotFit) {
                         System.out.println(items[i - 1].getName() + " / " + items[i - 1].getWeight()  + "kg: Passt nicht in Gewicht " + weightCounter + "kg");
+                        try {System.in.read();} catch (Exception e) {}
                     }
                 }
             }
