@@ -12,7 +12,7 @@ class CargoItem implements Comparable<CargoItem> {
     String name;
 
     public CargoItem(double weight, int profit, String name) {
-        this.weight = (int)(weight * 100000);
+        this.weight = (int)(weight * 1000);
         this.profit = profit;
         this.name = name;
     }
@@ -30,8 +30,7 @@ class CargoItem implements Comparable<CargoItem> {
     }
 
     public String toString() {
-        return this.name + " - weight: " + this.weight + " - profit: " + this.profit + " - density: "
-                + (this.profit * 1.0 / this.weight);
+        return this.name + " - weight: " + this.weight + " - profit: " + this.profit;
     }
 
     @Override
@@ -48,10 +47,14 @@ class CargoItem implements Comparable<CargoItem> {
     }
 }
 
-public class RucksackproblemAlgoContainer {
+public class RucksackproblemsBranchAndBoundsContainer {
+
+    static int bestValue;
+    static List<CargoItem> bestSelection;
 
     public static void main(String[] args) {
-
+        
+        bestSelection = new ArrayList<CargoItem>();
         List<CargoItem> items = new ArrayList<CargoItem>();
 
         items.add(new CargoItem(1.6, 668, "2-Sitzer Sofa"));
@@ -124,61 +127,72 @@ public class RucksackproblemAlgoContainer {
         items.add(new CargoItem(0.192, 388, "Planze"));
         items.add(new CargoItem(0.42, 923, "Schuhschrank"));
 
-        int weightLimit = (int)((2.438 * 2.591 * 6.058) * 100000);
+        int weightLimit = (int)((2.438 * 2.591 * 6.058) * 1000);
 
-        CargoItem[] knapsack = knapsack(weightLimit, items.toArray(new CargoItem[items.size()]));
+        int availableValue = 0;
+        for (CargoItem item : items) {
+            availableValue += item.getProfit();
+        }
+
+        Collections.sort(items);
+
+        knapsack(new ArrayList<CargoItem>(), 0, items, availableValue, 0, weightLimit);
+
+        Collections.sort(bestSelection);
 
         int summeWeight = 0;
         int summeProfit = 0;
 
-        for (int i = 0; i < knapsack.length; i++) {
-            System.out.println(knapsack[i].toString());
-            summeProfit += knapsack[i].getProfit();
-            summeWeight += knapsack[i].getWeight();
+        Iterator<CargoItem> iterator = bestSelection.iterator();
+
+        while (iterator.hasNext()) {
+            CargoItem temp = iterator.next();
+
+            System.out.println(temp.toString());
+            summeProfit += temp.getProfit();
+            summeWeight += temp.getWeight();
         }
 
-        System.out.println("summeWeight: " + summeWeight / 100000);
+        System.out.println("summeWeight: " + summeWeight);
         System.out.println("summeProfit: " + summeProfit);
     }
 
-    public static CargoItem[] knapsack(int capacity, CargoItem[] items) {
+    static void knapsack(List<CargoItem> selectedItems, int selectedValue, List<CargoItem> availableItems, int availableValue, int currentWeight, int weightLimit) {
+        
+        if (availableItems.isEmpty()) // Rekusionsanker
+        {
+            // Testen, ob neue beste Kombination
+            if (selectedValue > bestValue) {
+                bestValue = selectedValue;
+                bestSelection.clear();
+                bestSelection.addAll(selectedItems);
+            }
 
-        // Nach Gewicht sortieren
-        Arrays.sort(items);
+        } else {
+            // Entfernen, für nächsten Rekursionsschritt
+            CargoItem item = availableItems.remove(0);
 
-        // Gewicht/Wert Tabelle erstellen
-        int[][] DP = new int[items.length + 1][capacity + 1];
+            int weight = item.getWeight();
+            int value = item.getProfit();
+            
+            // Bound: keine beste Kombination mehr möglich
+            if (selectedValue + availableValue > bestValue) {
 
-        // Gegenstände iterieren
-        for (int i = 1; i <= items.length; i++) {
-            // Gewicht iterieren
-            for (int weightCounter = 1; weightCounter <= capacity; weightCounter++) {
+                // Test Gegenstand noch einfügbar ?
+                if (currentWeight + weight <= weightLimit) {
 
-                // Vorherigen Wert übernehmen
-                DP[i][weightCounter] = DP[i - 1][weightCounter];
+                    selectedItems.add(item);
+                    knapsack(selectedItems, selectedValue + value, availableItems, availableValue - value, currentWeight + weight, weightLimit);
+                    selectedItems.remove(item);
 
-                // Testen Gewicht unter Limit
-                if (weightCounter >= items[i - 1].getWeight() &&
-                // Testen, ob Ergebnis besser ohne verherigen gegenstand
-                        DP[i - 1][weightCounter - items[i - 1].getWeight()]
-                                + items[i - 1].getProfit() > DP[i][weightCounter]) {
-                    DP[i][weightCounter] = DP[i - 1][weightCounter - items[i - 1].getWeight()]
-                            + items[i - 1].getProfit();
                 }
+
+                knapsack(selectedItems, selectedValue, availableItems, availableValue - value, currentWeight, weightLimit);
+
             }
+
+            // Backtracking
+            availableItems.add(item);
         }
-
-        int weightCountDown = capacity;
-        List<CargoItem> itemsSelected = new ArrayList<CargoItem>();
-
-        for (int i = items.length; i > 0; i--) {
-            if (DP[i][weightCountDown] != DP[i - 1][weightCountDown]) {
-                CargoItem itemIndex = items[i - 1];
-                itemsSelected.add(itemIndex);
-                weightCountDown -= items[i - 1].getWeight();
-            }
-        }
-
-        return itemsSelected.toArray(new CargoItem[itemsSelected.size()]);
     }
 }
